@@ -5,7 +5,7 @@ import math as math
 from scipy.stats import gaussian_kde
 
 #SESUAIKAN DENGAN FILE PATHNYA (DOWNLOAD DULU CSV NYA)
-file_path = "C:\\Users\\argaf\\Downloads\\Produksi Buah–Buahan dan Sayuran Tahunan Menurut Jenis Tanaman di Provinsi DKI Jakarta (kuintal), 2017.csv"
+file_path = "C:\\Users\\<?>\\Downloads\\Produksi Buah–Buahan dan Sayuran Tahunan Menurut Jenis Tanaman di Provinsi DKI Jakarta (kuintal), 2017.csv"
 
 data = pd.read_csv(file_path, skiprows=3)
 data.columns = ['Tanaman', 'Produksi']
@@ -43,4 +43,5 @@ plt.tick_params(axis='x', rotation=45)
 
 plt.legend()
 plt.show()
+
 
