@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import math as math
+from scipy.stats import gaussian_kde
 
 #SESUAIKAN DENGAN FILE PATHNYA (DOWNLOAD DULU CSV NYA)
 file_path = "C:\\Users\\<?>\\Downloads\\Produksi Buah–Buahan dan Sayuran Tahunan Menurut Jenis Tanaman di Provinsi DKI Jakarta (kuintal), 2017.csv"
@@ -19,16 +19,33 @@ bins = np.arange(0, 70001, 10000)
 mean_produksi = data['Produksi'].mean()
 median_produksi = data['Produksi'].median()
 modus_produksi = data['Produksi'].mode()[0]
-variance_produksi = data['Produksi'].var()
-stddeviasi_produksi = math.sqrt(variance_produksi)
 
 print(f"Mean   : {mean_produksi:.2f}")
 print(f"Median : {median_produksi:.2f}")
 print(f"Modus  : {modus_produksi}")
-print(f"Variance : {variance_produksi:.2f}")
-print(f"Standar Deviasi : {stddeviasi_produksi:.2f}")
 
-plt.hist(values, bins=bins, color='skyblue', edgecolor='black')
+counts, bin_edges = np.histogram(values, bins=bins)
+plt.hist(values, bins=bins, color='skyblue', edgecolor='black', alpha=0.7, label="Histogram")
+
+kde = gaussian_kde(values)
+bin_width = bins[1] - bins[0]
+x_grid = np.linspace(min(values), max(values), 1000)
+kde_density = kde(x_grid)
+
+kde_frequency = kde_density * len(values) * bin_width
+
+max_hist_height = np.max(counts)
+
+max_kde_height = np.max(kde_frequency)
+
+if max_kde_height > 0:
+    scale_factor = max_hist_height / max_kde_height
+    kde_frequency_scaled = kde_frequency * scale_factor
+else:
+    kde_frequency_scaled = kde_frequency
+
+plt.plot(x_grid, kde_frequency_scaled, color="blue", linewidth=2, label="Kurva Kontinu (KDE)")
+
 
 plt.axvline(mean_produksi, color='red', linestyle='--', label=f'Mean')
 plt.axvline(median_produksi, color='green', linestyle='--', label=f'Median')
