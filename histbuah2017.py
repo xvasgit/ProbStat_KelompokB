@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import math as math
-from scipy.stats import gaussian_kde
 
 #SESUAIKAN DENGAN FILE PATHNYA (DOWNLOAD DULU CSV NYA)
 file_path = "C:\\Users\\<?>\\Downloads\\Produksi Buah–Buahan dan Sayuran Tahunan Menurut Jenis Tanaman di Provinsi DKI Jakarta (kuintal), 2017.csv"
@@ -31,13 +30,6 @@ print(f"Standar Deviasi : {stddeviasi_produksi:.2f}")
 
 plt.hist(values, bins=bins, color='skyblue', edgecolor='black')
 
-kde = gaussian_kde(values)
-x_grid = np.linspace(min(values), max(values), 10000)
-kde_values = kde(x_grid)
-kde_values_scaled = kde_values * len(values) * (bins[1] - bins[0])
-plt.plot(x_grid, kde_values_scaled, color="blue", linewidth=2, label="Kurva Kontinu (KDE)")
-
-
 plt.axvline(mean_produksi, color='red', linestyle='--', label=f'Mean')
 plt.axvline(median_produksi, color='green', linestyle='--', label=f'Median')
 plt.axvline(modus_produksi, color='orange', linestyle='--', label=f'Mode')
@@ -51,6 +43,3 @@ plt.tick_params(axis='x', rotation=45)
 
 plt.legend()
 plt.show()
-
-
-
